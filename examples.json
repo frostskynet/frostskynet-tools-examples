@@ -1,0 +1,67 @@
+[
+  {
+    "mode": "offline synthetic example; payment middleware bypassed locally",
+    "route": "/clean",
+    "request": {
+      "input": "[{\"question\":\"  What is JSONL?  \",\"answer\":\" One JSON value per line. \"},{\"question\":\"What is JSONL?\",\"answer\":\"One JSON value per line.\"},{\"question\":\"How can I contact the example team?\",\"answer\":\" Email alice@example.com for this synthetic example. \"}]",
+      "options": {
+        "minChars": 3
+      }
+    },
+    "response": {
+      "output": "{\"question\": \"What is JSONL?\", \"answer\": \"One JSON value per line.\"}\n{\"question\": \"How can I contact the example team?\", \"answer\": \"Email alice@example.com for this synthetic example.\"}\n",
+      "stats": {
+        "inputFormat": "json_array",
+        "rowsIn": 3,
+        "rowsOut": 2,
+        "droppedEmpty": 0,
+        "droppedShort": 0,
+        "droppedDuplicates": 1,
+        "unparseable": 0
+      }
+    }
+  },
+  {
+    "mode": "offline synthetic example; payment middleware bypassed locally",
+    "route": "/judge",
+    "request": {
+      "input": "{\"question\": \"What is JSONL?\", \"answer\": \"One JSON value per line.\"}\n{\"question\": \"How can I contact the example team?\", \"answer\": \"Email alice@example.com for this synthetic example.\"}\n",
+      "options": {
+        "stripPii": true,
+        "filter": true,
+        "minScore": 70
+      }
+    },
+    "response": {
+      "output": "{\"question\": \"What is JSONL?\", \"answer\": \"One JSON value per line.\", \"_quality\": {\"score\": 100, \"issues\": [], \"pii_types\": {}, \"llm_score\": null}}\n{\"question\": \"How can I contact the example team?\", \"answer\": \"Email [EMAIL] for this synthetic example.\", \"_quality\": {\"score\": 95, \"issues\": [\"pii_redacted\"], \"pii_types\": {\"email\": 1}, \"llm_score\": null}}\n",
+      "stats": {
+        "rowsIn": 2,
+        "rowsOut": 2,
+        "averageScore": 98,
+        "issueCounts": {
+          "pii_redacted": 1
+        }
+      }
+    }
+  },
+  {
+    "mode": "offline synthetic example; payment middleware bypassed locally",
+    "route": "/format",
+    "request": {
+      "input": "{\"question\": \"What is JSONL?\", \"answer\": \"One JSON value per line.\", \"_quality\": {\"score\": 100, \"issues\": [], \"pii_types\": {}, \"llm_score\": null}}\n{\"question\": \"How can I contact the example team?\", \"answer\": \"Email [EMAIL] for this synthetic example.\", \"_quality\": {\"score\": 95, \"issues\": [\"pii_redacted\"], \"pii_types\": {\"email\": 1}, \"llm_score\": null}}\n",
+      "options": {
+        "format": "chat",
+        "system": "Answer using the provided examples."
+      }
+    },
+    "response": {
+      "output": "{\"messages\": [{\"role\": \"system\", \"content\": \"Answer using the provided examples.\"}, {\"role\": \"user\", \"content\": \"What is JSONL?\"}, {\"role\": \"assistant\", \"content\": \"One JSON value per line.\"}]}\n{\"messages\": [{\"role\": \"system\", \"content\": \"Answer using the provided examples.\"}, {\"role\": \"user\", \"content\": \"How can I contact the example team?\"}, {\"role\": \"assistant\", \"content\": \"Email [EMAIL] for this synthetic example.\"}]}\n",
+      "stats": {
+        "format": "chat",
+        "rowsIn": 2,
+        "rowsOut": 2,
+        "skipped": 0
+      }
+    }
+  }
+]
